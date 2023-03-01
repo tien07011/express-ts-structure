@@ -1,5 +1,6 @@
+import LoggerUtils from "./utils/logger.utils";
 import * as dotenv from "dotenv";
-import express, { type Express } from "express";
+import express, { NextFunction, Request, Response, type Express } from "express";
 
 /**
  * Config .env file
@@ -29,9 +30,33 @@ app.use(express.static("public"));
 /**
  * Config routes
  */
-app.get("/", (req, res) => {
-  console.log("/");
-  res.send("Hello World!");
+app.get("/", (req, res, next) => {
+  try {
+    let a = "";
+    JSON.parse(a);
+    res.json({ message: "Hello World!" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Config 404 - Not Found
+ */
+app.use(function (req, res, next) {
+  res.status(404).json({ error: "Page not found", endpoint: req.url });
+});
+
+/**
+ * Config 500 - Internal Server Error
+ */
+app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
+  new LoggerUtils().write(err.message, "error", "ERROR");
+  res.status(500).json({
+    error: "Internal Server Error",
+    trace: err.message,
+    endpoint: req.url,
+  });
 });
 
 /**

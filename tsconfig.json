@@ -6,7 +6,6 @@
     "target": "ESNext",
     "allowJs": true,
     "moduleResolution": "node",
-    "baseUrl": "src",
     "sourceMap": true,
     "esModuleInterop": true
   },

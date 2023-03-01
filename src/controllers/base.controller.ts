@@ -1,4 +1,4 @@
-import { RouteDefinition } from "../specs/utils/router.utils";
+import { RouteDefinition } from "../routes/register.route";
 
 abstract class BaseController {}
 

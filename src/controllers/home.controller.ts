@@ -5,7 +5,6 @@ import BaseController, { Controller, Get } from "./base.controller";
 class HomeController extends BaseController {
   @Get("/")
   public index(req: Request, res: Response) {
-    console.log(req);
     res.json({ hello: "world" });
   }
 }

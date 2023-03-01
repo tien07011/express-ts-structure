@@ -1,5 +1,4 @@
-import { Request, Response, Express } from "express";
-import { RouteDefinition } from "../specs/utils/router.utils";
+import { Request, Response, Express, NextFunction } from "express";
 import HomeController from "../controllers/home.controller";
 
 class RegisterRoute {
@@ -22,8 +21,12 @@ class RegisterRoute {
       const prefix = Reflect.getMetadata("prefix", controller);
       const routes: RouteDefinition[] = Reflect.getMetadata("routes", controller);
       routes.forEach(route => {
-        this.app[route.requestMethod](prefix + route.path, (req: Request, res: Response) => {
-          (instance as any)[route.methodName](req, res);
+        this.app[route.requestMethod](prefix + route.path, (req: Request, res: Response, next: NextFunction) => {
+          try {
+            (instance as any)[route.methodName](req, res);
+          } catch (error) {
+            next(error);
+          }
         });
       });
     });
@@ -31,3 +34,11 @@ class RegisterRoute {
 }
 
 export default RegisterRoute;
+
+export interface RouteDefinition {
+  path: string;
+  requestMethod: RequestMethod;
+  methodName: string | symbol;
+}
+
+export type RequestMethod = "get" | "post" | "put" | "delete";

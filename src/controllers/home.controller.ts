@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import BaseController, { Controller, Get } from "./base.controller";
+import BaseController, { Controller, RouterMapping } from "./base.controller";
 
 @Controller("/")
 class HomeController extends BaseController {
-  @Get("/")
+  @RouterMapping("get", "/")
   public index(req: Request, res: Response) {
     res.json({ hello: "world" });
   }

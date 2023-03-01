@@ -41,4 +41,4 @@ export interface RouteDefinition {
   methodName: string | symbol;
 }
 
-export type RequestMethod = "get" | "post" | "put" | "delete";
+export type RequestMethod = "get" | "post" | "put" | "patch" | "delete";

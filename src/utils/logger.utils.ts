@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { LoggerStatus } from "../specs/utils/logger.utils";
 
-class LoggerUtils {
+class Logger {
   public write(message: string, fileName: string, status: LoggerStatus) {
     let date = new Date();
     let now = date.getTime();
@@ -18,4 +18,4 @@ class LoggerUtils {
   }
 }
 
-export default LoggerUtils;
+export default Logger;

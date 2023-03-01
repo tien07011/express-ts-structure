@@ -1,6 +1,8 @@
-import LoggerUtils from "./utils/logger.utils";
-import * as dotenv from "dotenv";
+import "reflect-metadata";
 import express, { NextFunction, Request, Response, type Express } from "express";
+import * as dotenv from "dotenv";
+import Logger from "./utils/logger.utils";
+import RegisterRoute from "./routes/register.route";
 
 /**
  * Config .env file
@@ -30,15 +32,7 @@ app.use(express.static("public"));
 /**
  * Config routes
  */
-app.get("/", (req, res, next) => {
-  try {
-    let a = "";
-    JSON.parse(a);
-    res.json({ message: "Hello World!" });
-  } catch (error) {
-    next(error);
-  }
-});
+new RegisterRoute(app);
 
 /**
  * Config 404 - Not Found
@@ -51,7 +45,7 @@ app.use(function (req, res, next) {
  * Config 500 - Internal Server Error
  */
 app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
-  new LoggerUtils().write(err.message, "error", "ERROR");
+  new Logger().write(err.message, "error", "ERROR");
   res.status(500).json({
     error: "Internal Server Error",
     trace: err.message,
